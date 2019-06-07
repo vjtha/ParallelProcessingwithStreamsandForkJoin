@@ -1,0 +1,106 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:Xlint="http://www.w3.org/2001/XMLSchema"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>cla</groupId>
+  <artifactId>parallel-stream</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>parallel-stream</name>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+      </properties>
+
+      <dependencies>
+        <!--<dependency>-->
+          <!--<groupId>junit</groupId>-->
+          <!--<artifactId>junit</artifactId>-->
+          <!--<version>4.11</version>-->
+          <!--<scope>test</scope>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>com.google.code.tempus-fugit</groupId>-->
+            <!--<artifactId>tempus-fugit</artifactId>-->
+            <!--<version>1.1</version>-->
+        <!--</dependency>-->
+          <dependency>
+              <groupId>org.testng</groupId>
+              <artifactId>testng</artifactId>
+              <version>6.8.13</version>
+          </dependency>
+      </dependencies>
+
+      <build>
+         <plugins>
+
+           <plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-compiler-plugin</artifactId>
+             <version>3.1</version>
+             <configuration>
+               <source>1.8</source>
+               <target>1.8</target>
+
+               <compilerArguments>
+                 <Werror />
+               </compilerArguments>
+
+                <!--The "missing serialVersionUID" warning is useless in this project,
+                as in all projects that dont need a serialization compatibility policy
+                more advanced than the default one (see Effective Java).-->
+               <compilerArgument>-Xlint:all,-serial</compilerArgument>
+
+               <showDeprecation>true</showDeprecation>
+               <showWarnings>true</showWarnings>
+             </configuration>
+
+           </plugin>
+           <plugin>
+           	   <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-surefire-plugin</artifactId>
+
+               <version>2.18.1</version>
+               <!--uncomment to use the fork (it must be be installed first)-->
+               <!--<version>2.19-SNAPSHOT</version>-->
+
+               <!--1. org.codehaus.plexus.classworlds.launcher.Launcher-->
+                   <!--C'est lui qui est lancé en 1er-->
+                   <!--C'est lui qui choppe l'OOME-->
+                   <!--Prend __PAS__ en compte argLine-->
+                   <!--Prend __PAS__ en compte systemPropertyVariables/classworlds.conf-->
+                   <!--Prend en compte MAVEN_OPTS-->
+               <!--2. org.apache.maven.surefire.booter.ForkedBooter-->
+                    <!--Pas de pb d'OOME-->
+                    <!--Prend en compte argLine-->
+                    <!--Prend __PAS__ en compte MAVEN_OPTS-->
+               <!--essayer plugin mgt?-->
+               <configuration>
+                   <!--<redirectTestOutputToFile>true</redirectTestOutputToFile>-->
+                   <failIfNoTests>true</failIfNoTests>
+                   <!--<argLine>-Xmx512M</argLine>-->
+                   <!--<environmentVariables>-->
+                       <!--<MAVEN_OPTS>-Xmx512m</MAVEN_OPTS>-->
+                   <!--</environmentVariables>-->
+                   <!--<properties></properties>-->
+                   <!--<systemProperties><MAVEN_OPTS>-Xmx512m</MAVEN_OPTS></systemProperties>-->
+                   <systemPropertyVariables>
+                       <!--<classworlds.conf>-Xmx800m -Xshare:off -Xnoclassgc -XX:+UnlockCommercialFeatures -XX:+FlightRecorder</classworlds.conf>-->
+                       <java.util.concurrent.ForkJoinPool.common.parallelism>3</java.util.concurrent.ForkJoinPool.common.parallelism>
+                   </systemPropertyVariables>
+                   <disableXmlReport>true</disableXmlReport>
+                   <printSummary>false</printSummary>
+
+                   <!--<forkCount>1</forkCount>-->
+                   <!--<reuseForks>false</reuseForks>-->
+               </configuration>
+           </plugin>
+
+         </plugins>
+       </build>
+
+</project>

@@ -1,0 +1,11 @@
+parallel-stream/.classpath
+parallel-stream/.project
+parallel-stream/.settings/*
+
+parallel-stream/.idea/*
+parallel-stream/target/*
+parallel-stream/test-output/*
+*.iml
+
+*.hprof
+
